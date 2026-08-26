@@ -85,7 +85,7 @@ O pipeline atualmente percorre os anos configurados, faz a leitura dos arquivos 
 balanco_energia_ons.parquet
 ```
 
-### `analise_copa_nova.ipynb`
+### `analise_copa.ipynb`
 
 Notebook utilizado para a análise exploratória das partidas do Brasil nas Copas do Mundo de 2014 e 2026.
 
