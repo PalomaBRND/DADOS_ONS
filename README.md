@@ -44,6 +44,9 @@ O projeto transforma a base histórica de balanço energético em uma ferramenta
 - Como hidráulica, térmica, eólica e solar variam ao longo do período?
 - Como o intercâmbio se comportou?
 
+> **Intercambio** : fluxo líquido de energia associado às interligações entre subsistemas, conforme a convenção da base do ONS, em MWmed.
+
+
 Além do dashboard, o projeto possui um **notebook** com uma aplicação prática desses dados: uma análise dos jogos do Brasil nas Copas do Mundo de 2014 e 2026.
 
 ---
