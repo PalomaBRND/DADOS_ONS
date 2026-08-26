@@ -73,7 +73,7 @@ Aplicação principal em Streamlit. Responsável por:
 - geração dos gráficos (linha de carga, linha de geração, composição/pizza);
 - comparação entre recortes históricos.
 
-### `python pipeline.py`
+### `pipeline.py`
 
 Script que baixa os arquivos anuais públicos do ONS (2000 até o ano corrente), padroniza as colunas numéricas e consolida tudo em um único arquivo:
 
