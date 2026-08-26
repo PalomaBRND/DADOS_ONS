@@ -3,6 +3,8 @@ pyarrow
 requests
 streamlit
 plotly
+numpy
+matplotlib
 jupyter
 notebook
 ipykernel
