@@ -120,26 +120,7 @@ Evita versionar arquivos locais e arquivos de dados grandes, como `*.parquet`.
 
 ---
 
-## ⚠️ Atenção ao `requirements.txt`
 
-O `requirements.txt` atual do repositório instala o necessário para o **dashboard** e para **abrir** o Jupyter, mas está **faltando `numpy` e `matplotlib`**, que o `analise_copa.ipynb` usa internamente. Sem eles, o notebook quebra na primeira célula de código com `ModuleNotFoundError`.
-
-Atualize o `requirements.txt` para:
-
-```text
-pandas
-pyarrow
-requests
-streamlit
-plotly
-numpy
-matplotlib
-jupyter
-notebook
-ipykernel
-```
-
----
 
 # ⚙️ Instalação
 
