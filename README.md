@@ -314,9 +314,9 @@ Diferença percentual entre a carga observada em cada partida e a referência.
 
 A interpretação é **observacional** — os resultados não permitem afirmar, isoladamente, que os jogos foram a causa direta das variações de carga. Fatores como dia da semana, temperatura, condições climáticas, feriados e outros eventos operacionais também influenciam a demanda. Além disso, o número de jogos analisados difere entre 2014 e 2026, o que limita a comparabilidade direta.
 
-> **Nota sobre o recorte:** o notebook compara os horários dos jogos do Brasil em 2014 e 2026, de forma simétrica entre os dois anos. Uma extensão natural seria também descrever o comportamento do sistema durante o período completo da Copa de 2014 (12/06 a 13/07), não só nos jogos do Brasil — fica registrado como próximo passo no próprio notebook.
+> **Nota sobre o recorte:** o notebook compara os horários dos jogos do Brasil em 2014 e 2026, de forma simétrica entre os dois anos. 
 >
-> **Nota sobre os horários:** os horários dos jogos de 2026 foram apurados manualmente a partir de cobertura jornalística da época. Antes de publicar conclusões, vale conferi-los contra a tabela oficial da FIFA.
+> **Nota sobre os horários:** os horários dos jogos de 2026 foram apurados manualmente a partir de cobertura jornalística da época.
 
 ---
 
