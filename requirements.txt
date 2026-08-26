@@ -1,0 +1,8 @@
+pandas
+pyarrow
+requests
+streamlit
+plotly
+jupyter
+notebook
+ipykernel
