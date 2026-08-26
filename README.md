@@ -1,116 +1,116 @@
 # Dashboard ONS — Carga e Geração
 
-Dashboard analítico desenvolvido em **Python + Streamlit** para exploração histórica de dados de **Carga e Geração do Sistema Interligado Nacional (SIN)** a partir do Balanço de Energia do ONS.
+Dashboard analítico desenvolvido em **Python + Streamlit** para exploração histórica de dados de **Carga e Geração do Sistema Interligado Nacional (SIN)** a partir de dados públicos do **Operador Nacional do Sistema Elétrico (ONS)**.
 
-O projeto foi estruturado com inspiração na experiência de consulta da página **Carga e Geração** do ONS, mas com uma camada histórica e comparativa que permite selecionar diferentes datas, períodos, horários, subsistemas e fontes de geração.
+O projeto combina um **pipeline de atualização de dados**, um **dashboard interativo** e um **notebook de análise exploratória**, permitindo trabalhar com séries históricas de carga, geração por fonte e intercâmbio.
 
 ---
 
 ## 📌 Visão geral
 
-A solução permite explorar o comportamento da carga e da geração ao longo do tempo e comparar diferentes recortes históricos.
-
-Entre os principais recursos estão:
-
-- seleção de **um ou vários subsistemas**;
-- seleção de **fontes de geração**;
-- análise de **um dia**;
-- comparação de **até 7 dias**;
-- análise de **um período**;
-- comparação de **dois períodos**;
-- seleção de **uma hora**;
-- comparação de **até 7 horários**;
-- análise de um **intervalo horário**;
-- análise de **24 horas**;
-- curva horária de carga;
-- curva horária de geração;
-- indicadores de carga média, pico, mínimo e intercâmbio;
-- comparação visual entre diferentes dias e períodos.
-
-A aplicação utiliza a base histórica consolidada no arquivo:
+A solução foi estruturada em três etapas:
 
 ```text
+Dados públicos do ONS
+        ↓
+    pipeline.py
+        ↓
+Consolidação e padronização
+        ↓
 balanco_energia_ons.parquet
+        ↓
+    dashboard.py
+        ↓
+      Streamlit
 ```
+
+O dashboard foi desenvolvido com inspiração na página **Carga e Geração** do ONS, mas acrescenta recursos de análise histórica e comparação.
 
 ---
 
 ## 🎯 Objetivo
 
-O objetivo do projeto é transformar uma base histórica de balanço energético em uma ferramenta visual para responder perguntas como:
+O projeto transforma a base histórica de balanço energético em uma ferramenta de exploração visual para responder perguntas como:
 
 - Como a carga se comportou em determinado dia?
-- Qual foi o horário de maior carga?
-- Como a geração hidráulica, térmica, eólica e solar variou?
-- Como dois dias diferentes se comportaram?
+- Qual foi o pico e o mínimo de carga?
+- Como dois ou mais dias se comportaram?
 - Como dois períodos históricos se comportaram?
-- Como diferentes subsistemas se comparam?
-- Como muda o perfil de geração quando selecionamos diferentes fontes?
+- Como a carga varia ao longo das horas?
+- Como diferentes subsistemas se comportam?
+- Qual foi a participação de cada fonte de geração?
+- Como hidráulica, térmica, eólica e solar variam ao longo do período?
+- Como o intercâmbio se comportou?
 
-O projeto também contém um notebook separado com uma análise exploratória aplicada às partidas do Brasil nas Copas do Mundo de 2014 e 2026.
+Além do dashboard, o projeto possui um notebook específico para a análise dos jogos do Brasil nas Copas do Mundo de 2014 e 2026.
 
 ---
 
-## 🏗️ Estrutura do projeto
+# 🏗️ Estrutura do projeto
 
 ```text
-dashboard-ons-echoenergia/
+DADOS_ONS/
 │
 ├── dashboard.py
+├── pipeline.py
 ├── analise_copa_nova.ipynb
 ├── requirements.txt
 ├── README.md
-├── .gitignore
-└── balanco_energia_ons.parquet
+└── .gitignore
 ```
 
-### Arquivos
-
-#### `dashboard.py`
+### `dashboard.py`
 
 Aplicação principal desenvolvida em Streamlit.
 
-É responsável por:
+Responsável por:
 
-- carregamento da base;
-- filtros;
-- processamento dos dados;
-- criação dos indicadores;
-- criação dos gráficos;
-- interação com o usuário.
+- leitura da base consolidada;
+- filtros interativos;
+- seleção de subsistemas;
+- seleção de fontes de geração;
+- seleção de dias e períodos;
+- seleção de horários;
+- cálculo dos indicadores;
+- geração dos gráficos;
+- comparação entre recortes históricos.
 
-#### `analise_copa_nova.ipynb`
+### `pipeline.py`
 
-Notebook de análise exploratória utilizado para estudar o comportamento da carga e da geração nos horários dos jogos do Brasil nas Copas de 2014 e 2026.
+Processo responsável por baixar os dados públicos do ONS e consolidar os arquivos anuais em uma única base Parquet.
 
-Entre as análises realizadas estão:
+O pipeline atualmente percorre os anos configurados, faz a leitura dos arquivos anuais, converte as colunas numéricas e consolida os dados em:
+
+```text
+balanco_energia_ons.parquet
+```
+
+### `analise_copa_nova.ipynb`
+
+Notebook utilizado para a análise exploratória das partidas do Brasil nas Copas do Mundo de 2014 e 2026.
+
+Entre as análises estão:
 
 - carga média nos horários dos jogos;
-- carga dos jogos versus carga de referência;
+- carga observada versus carga de referência;
 - composição média da geração;
 - comparação 2014 × 2026;
 - variação da carga por jogo;
-- conclusões e limitações da análise.
+- conclusões e limitações metodológicas.
 
-#### `balanco_energia_ons.parquet`
+### `requirements.txt`
 
-Base histórica do ONS utilizada pelo projeto.
+Lista de bibliotecas necessárias para executar o projeto.
 
-As principais variáveis utilizadas são:
+### `.gitignore`
+
+Evita o versionamento de arquivos locais e arquivos de dados grandes, como:
 
 ```text
-id_subsistema
-nom_subsistema
-din_instante
-val_gerhidraulica
-val_gertermica
-val_gereolica
-val_gersolar
-val_carga
-val_intercambio
+*.parquet
 ```
 
-> **Observação:** a base é um arquivo de dados de tamanho elevado. Caso o repositório seja público, recomenda-se avaliar se o arquivo deve ser versionado diretamente no GitHub ou disponibilizado separadamente.
+O arquivo `balanco_energia_ons.parquet` é **gerado localmente pelo pipeline** e não precisa ser armazenado no GitHub.
 
 ---
 
@@ -118,46 +118,41 @@ val_intercambio
 
 ## Python
 
-Linguagem utilizada em toda a solução.
-
-## Streamlit
-
-Utilizado para construção da aplicação web interativa.
-
-Permite:
-
-- criação dos filtros;
-- organização da interface;
-- exibição dos indicadores;
-- execução dos gráficos;
-- interação com os dados sem necessidade de um front-end separado.
+Linguagem principal utilizada no projeto.
 
 ## Pandas
 
 Utilizado para:
 
 - leitura e transformação dos dados;
-- filtragem;
+- filtros;
 - agrupamentos;
-- cálculos de médias;
-- comparação de períodos;
-- tratamento das séries temporais.
-
-## NumPy
-
-Utilizado para operações numéricas e tratamento de valores ausentes nas análises.
-
-## Plotly
-
-Utilizado para construção dos gráficos interativos do dashboard.
+- cálculos estatísticos;
+- manipulação de séries temporais.
 
 ## PyArrow
 
-Utilizado pelo pandas para leitura do formato **Parquet**.
+Utilizado para leitura e escrita do formato **Parquet**.
+
+## Streamlit
+
+Utilizado para construção do dashboard interativo.
+
+## Plotly
+
+Utilizado para criação dos gráficos interativos.
+
+## NumPy
+
+Utilizado nas operações numéricas e no tratamento de valores ausentes das análises.
 
 ## Matplotlib
 
-Utilizado no notebook `analise_copa_nova.ipynb` para geração dos gráficos da análise exploratória.
+Utilizado no notebook de análise exploratória.
+
+## Jupyter / Notebook
+
+Utilizado para desenvolvimento e execução da análise exploratória.
 
 ---
 
@@ -166,13 +161,13 @@ Utilizado no notebook `analise_copa_nova.ipynb` para geração dos gráficos da 
 ## 1. Clonar o repositório
 
 ```bash
-git clone https://github.com/SEU_USUARIO/dashboard-ons-echoenergia.git
+git clone https://github.com/PalomaBRND/DADOS_ONS.git
 ```
 
 Entrar na pasta:
 
 ```bash
-cd dashboard-ons-echoenergia
+cd DADOS_ONS
 ```
 
 ---
@@ -208,25 +203,44 @@ source .venv/bin/activate
 ## 3. Instalar as dependências
 
 ```bash
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
-Caso o arquivo `requirements.txt` ainda não exista, as principais dependências são:
+---
+
+# 🔄 Atualização dos dados
+
+O arquivo `balanco_energia_ons.parquet` não precisa ser baixado manualmente.
+
+O projeto possui um pipeline para reconstruí-lo a partir dos dados públicos do ONS.
+
+Execute:
+
+```bash
+python pipeline.py
+```
+
+O processo:
+
+1. acessa os arquivos anuais publicados pelo ONS;
+2. baixa os dados;
+3. padroniza as colunas numéricas;
+4. consolida os anos em um único DataFrame;
+5. grava o resultado em:
 
 ```text
-streamlit
-pandas
-numpy
-plotly
-pyarrow
-matplotlib
+balanco_energia_ons.parquet
 ```
+
+Após a execução, esse arquivo estará disponível localmente na mesma pasta do projeto.
+
+> **Observação:** o tempo de execução depende da quantidade de anos processados e da velocidade da conexão com a internet.
 
 ---
 
 # ▶️ Executando o dashboard
 
-Na pasta do projeto, execute:
+Depois de gerar a base, execute:
 
 ```bash
 python -m streamlit run dashboard.py
@@ -242,13 +256,11 @@ Abra o endereço no navegador.
 
 ---
 
-# 📊 Como utilizar o dashboard
+# 📊 Funcionalidades do dashboard
 
-## 1. Subsistema
+## Subsistemas
 
-O usuário pode selecionar um ou vários subsistemas.
-
-Exemplos:
+É possível selecionar um ou vários subsistemas, incluindo:
 
 - NORTE
 - NORDESTE
@@ -256,19 +268,15 @@ Exemplos:
 - SUDESTE/CENTRO-OESTE
 - SISTEMA INTERLIGADO NACIONAL
 
-Ao selecionar mais de um subsistema, os gráficos apresentam séries separadas para permitir comparação.
+Quando mais de um subsistema é selecionado, os gráficos permitem visualizar as séries separadamente.
 
 ---
 
-## 2. Modo de análise
-
-O dashboard possui dois modos principais:
-
-### DIA
+## Modo DIA
 
 Permite analisar um dia específico.
 
-O usuário pode adicionar outros dias por meio do botão `+`, chegando a um máximo de **7 dias** para comparação.
+A primeira data é exibida por padrão e o botão `+` permite adicionar outros dias para comparação, com limite de até **7 dias**.
 
 Exemplo:
 
@@ -280,7 +288,7 @@ Exemplo:
 
 ---
 
-### PERÍODO
+## Modo PERÍODO
 
 Permite analisar um intervalo de datas.
 
@@ -290,7 +298,7 @@ Exemplo:
 21/08/2026 a 23/08/2026
 ```
 
-Também é possível adicionar um segundo período para comparação.
+O botão `+` permite adicionar um segundo período para comparação.
 
 Exemplo:
 
@@ -303,11 +311,9 @@ Período 2: 14/08/2026 a 16/08/2026
 
 # 🕒 Filtro de horário
 
-O dashboard permite três formas de seleção.
-
 ## HORA
 
-Seleção de uma hora específica.
+Permite analisar uma hora específica.
 
 Exemplo:
 
@@ -315,13 +321,13 @@ Exemplo:
 08:00
 ```
 
-Também é possível adicionar outros horários por meio do botão `+`.
+O botão `+` permite adicionar outros horários para comparação.
 
 ---
 
 ## INTERVALO
 
-Permite definir hora inicial e hora final.
+Permite selecionar hora inicial e hora final.
 
 Exemplo:
 
@@ -333,7 +339,7 @@ Exemplo:
 
 ## 24 HORAS
 
-Considera todas as horas disponíveis no dia.
+Considera todas as horas disponíveis no recorte selecionado.
 
 ---
 
@@ -346,27 +352,25 @@ As fontes disponíveis para análise são:
 - Eólica
 - Solar
 
-O usuário pode selecionar uma ou várias fontes.
-
-Os filtros afetam os gráficos e os indicadores relacionados à geração.
+É possível selecionar uma ou várias fontes.
 
 ---
 
 # 📈 Indicadores
 
-Dependendo do recorte selecionado, o dashboard apresenta indicadores como:
+Dependendo do filtro utilizado, o dashboard apresenta indicadores como:
 
 ### Carga média
 
-Média da carga observada dentro do recorte selecionado.
+Média da carga observada no recorte selecionado.
 
 ### Pico
 
-Maior valor de carga encontrado no recorte.
+Maior valor de carga encontrado.
 
 ### Mínimo
 
-Menor valor de carga encontrado no recorte.
+Menor valor de carga encontrado.
 
 ### Intercâmbio médio
 
@@ -378,15 +382,20 @@ Média do intercâmbio observado no recorte.
 
 ## Curva de Carga
 
-Mostra a evolução horária da carga no período ou dia selecionado.
+Mostra a evolução horária da carga.
 
-Quando mais de um dia ou período é comparado, as curvas podem ser visualizadas em conjunto.
+Permite comparar:
+
+- diferentes dias;
+- diferentes períodos;
+- diferentes subsistemas;
+- diferentes horários.
 
 ---
 
 ## Curva de Geração
 
-Mostra a evolução das fontes selecionadas ao longo das horas:
+Mostra a evolução horária das fontes selecionadas:
 
 - hidráulica;
 - térmica;
@@ -397,36 +406,34 @@ Mostra a evolução das fontes selecionadas ao longo das horas:
 
 ## Composição da geração
 
-Apresenta a participação média das fontes de geração no recorte analisado.
+Apresenta a participação média das fontes selecionadas no recorte analisado.
 
 ---
 
 # 🔎 Análise exploratória — Copa do Mundo
 
-O projeto também possui uma análise específica no notebook `analise_copa_nova.ipynb`.
+O notebook `analise_copa_nova.ipynb` apresenta uma aplicação prática dos dados do ONS utilizando os jogos do Brasil nas Copas de 2014 e 2026.
 
-O estudo compara o comportamento do sistema nos horários dos jogos do Brasil em:
+A análise considera o **Sistema Interligado Nacional (SIN)** e relaciona os horários dos jogos com:
 
-- Copa de 2014;
-- Copa de 2026.
-
-A análise é realizada para o:
-
-```text
-Sistema Interligado Nacional (SIN)
-```
+- carga;
+- geração hidráulica;
+- geração térmica;
+- geração eólica;
+- geração solar;
+- intercâmbio.
 
 ## Principais análises
 
 ### Carga média nos horários dos jogos
 
-Compara a carga média observada nos jogos de 2014 e 2026.
+Compara a carga média observada nos horários das partidas entre 2014 e 2026.
 
 ### Carga do jogo × carga de referência
 
-Para cada partida, é calculada uma referência de carga usando o mesmo horário em uma janela de aproximadamente ±7 dias, excluindo o próprio instante do jogo.
+Para cada jogo, é calculada uma **carga de referência do horário**, construída a partir da média da carga observada no mesmo horário em uma janela de aproximadamente ±7 dias, excluindo o próprio instante do jogo.
 
-A comparação permite calcular:
+O cálculo utilizado é:
 
 ```text
 Variação (%) =
@@ -436,11 +443,11 @@ Carga de referência
 × 100
 ```
 
-A referência é uma construção estatística do estudo e não uma previsão oficial do ONS.
+Essa referência é uma construção estatística do estudo e não representa uma previsão oficial do ONS.
 
 ### Composição da geração
 
-Compara a participação média de:
+Compara a participação média das fontes:
 
 - hidráulica;
 - térmica;
@@ -449,43 +456,50 @@ Compara a participação média de:
 
 ### Variação por jogo
 
-Mostra a diferença percentual entre a carga observada durante cada partida e a referência utilizada no estudo.
+Mostra a diferença percentual entre a carga observada durante cada partida e a carga de referência.
 
 ---
 
 # 🧪 Metodologia da análise da Copa
 
-A análise utiliza:
+O estudo segue as etapas:
 
 1. identificação dos horários das partidas;
 2. cruzamento com a série horária do ONS;
 3. seleção do SIN;
 4. extração da carga e das fontes de geração;
 5. construção da referência horária;
-6. comparação entre observado e referência;
-7. agregação por Copa;
-8. visualização dos resultados.
+6. comparação entre carga observada e referência;
+7. agregação dos resultados por Copa;
+8. geração dos gráficos e conclusões.
 
 A interpretação é **observacional**.
 
-Os resultados não permitem afirmar, isoladamente, que a partida foi a causa da alteração na carga.
+A análise não permite afirmar, isoladamente, que os jogos foram a causa direta das alterações na carga.
 
-Fatores como temperatura, dia da semana, feriados, clima e demais condições operativas podem influenciar a demanda.
+Fatores como:
 
-Além disso, o número de jogos analisados é diferente entre os períodos.
+- dia da semana;
+- temperatura;
+- condições climáticas;
+- feriados;
+- características específicas dos dias;
+- outros eventos operacionais;
+
+também podem influenciar o comportamento da demanda.
 
 ---
 
 # 📚 Fonte dos dados
 
-Os dados utilizados no projeto são provenientes do **Operador Nacional do Sistema Elétrico (ONS)**, especialmente do conjunto histórico de balanço de energia por subsistema.
+Os dados utilizados no projeto são provenientes do:
 
-Referência:
+**Operador Nacional do Sistema Elétrico — ONS**
+
+Portal de dados:
 
 https://dados.ons.org.br/
 
-Página de referência visual para Carga e Geração:
+Página de referência visual de Carga e Geração:
 
 https://www.ons.org.br/paginas/energia-agora/carga-e-geracao
-
----
