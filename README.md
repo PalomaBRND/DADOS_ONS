@@ -227,7 +227,7 @@ Esta seção assume que você já fez os passos de **Instalação** e de **Atual
 
 2. **Inicie o Jupyter** a partir da pasta do projeto:
    ```bash
-   jupyter notebook
+   python -m notebook
    ```
    (ou `jupyter lab`, se preferir a interface mais nova — funciona do mesmo jeito, só muda a aparência).
 
